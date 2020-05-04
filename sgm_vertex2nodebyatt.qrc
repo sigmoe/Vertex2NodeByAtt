@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/icons" lang="fre">
+        <file alias="sgm_vtx2ndbatt">icons/sgm_vtx2ndbatt.png</file>
+    </qresource>
+</RCC>

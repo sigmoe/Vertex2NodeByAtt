@@ -1,0 +1,20 @@
+[general]
+name=Move lines on points by attribute
+email=em@sigmoe.fr
+author=Etienne MORO
+qgisMinimumVersion=3.10
+description=Move lines on points by attribute (and vice versa)
+about=Modify the position of the vertices (the start-point and the end-point) of lines 
+ to put them at the position of 2 node objects, thanks to 1 attribute of the line 
+ that contains the 2 ids of the 2 nodes objects, with a separator. The reverse is also possible: move points on lines
+ 
+ <b>Déplace lignes sur points par attribut (et inversement)</b>
+ Modifie la position des sommets de lignes (premier point et dernier point) pour les repositionner à l'emplacement de 2 objets ponctuels, 
+ grâce à la valeur d'un attribut correspondant à l'identifiant de chacun de ces 2 points 
+ (avec un séparateur spécifique entre les 2 identifiants dans la valeur d'attribut).
+ L'inverse est également possible: déplacer les points sur les lignes.
+version=version 3.02
+tags=move points on lines,move lines on points,sigmoé,sigmoe
+homepage=https://sigmoe.fr/nouvelle-video-extension-qgis-deplace-lignes-sur-points-par-attribut
+icon=icons/sgm_vtx2ndbatt.png
+experimental=False
