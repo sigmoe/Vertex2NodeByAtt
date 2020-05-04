@@ -6,13 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>637</width>
+    <width>760</width>
     <height>310</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>607</width>
+    <width>760</width>
     <height>303</height>
    </size>
   </property>
@@ -63,7 +63,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>300</width>
+          <width>400</width>
           <height>25</height>
          </size>
         </property>
@@ -77,7 +77,7 @@
          <locale language="English" country="UnitedStates"/>
         </property>
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;QGIS plugin developped by SIGMOÉ © 2020&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;QGIS plugin developped by SIGMOÉ&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="textFormat">
          <enum>Qt::RichText</enum>
@@ -187,7 +187,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>355</width>
+         <width>450</width>
          <height>0</height>
         </size>
        </property>
@@ -215,7 +215,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>355</width>
+         <width>450</width>
          <height>0</height>
         </size>
        </property>
@@ -243,7 +243,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>355</width>
+         <width>450</width>
          <height>0</height>
         </size>
        </property>
@@ -278,7 +278,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>355</width>
+         <width>450</width>
          <height>0</height>
         </size>
        </property>
@@ -306,7 +306,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>355</width>
+         <width>450</width>
          <height>0</height>
         </size>
        </property>
@@ -334,7 +334,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>355</width>
+         <width>450</width>
          <height>0</height>
         </size>
        </property>
