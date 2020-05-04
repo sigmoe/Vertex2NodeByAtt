@@ -16,5 +16,7 @@ about=Modify the position of the vertices (the start-point and the end-point) of
 version=version 3.02
 tags=move points on lines,move lines on points,sigmoé,sigmoe
 homepage=https://sigmoe.fr/nouvelle-video-extension-qgis-deplace-lignes-sur-points-par-attribut
+tracker=https://github.com/sigmoe/Vertex2NodeByAtt/issues
+repository=https://github.com/sigmoe/Vertex2NodeByAtt
 icon=icons/sgm_vtx2ndbatt.png
 experimental=False
