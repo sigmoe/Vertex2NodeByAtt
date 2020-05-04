@@ -15,7 +15,18 @@ Prerequisite
 
 Documentation
 =============
-See the video: https://youtu.be/kHRJkvIrJzo
+See the video (in French): https://youtu.be/kHRJkvIrJzo
+
+Example of use:
+- the layer LINES has an attribute named REGIDS
+- the layer NODES has an attribute named PTID
+- a LINES object has the value 'R1-R2' in REGIDS
+- a NODES object has the value 'R1' in PTID
+- another NODES object has the value 'R2' in PTID
+- then the result is:
+  1. the start-point of the LINES object is moved to the first NODES object position (R1)
+  2. the end-point of the LINES object is moved to the second NODES object position(R2)
+  3. the reverse is possible (the NODES objects are moved to the position of the start and end points of the LINES object)
 
 Author
 ======
