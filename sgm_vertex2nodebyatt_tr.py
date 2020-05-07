@@ -26,7 +26,7 @@
     *                          end points of the LINES object)
     * Specific lib:  None
     * First release: 2017-05-11
-    * Last release:  2020-04-30
+    * Last release:  2020-05-07
     * Copyright:     (C)2020 SIGMOE
     * Email:         em at sigmoe.fr
     * License:       GPL v3
@@ -89,76 +89,81 @@ class Vertex2NodeByAttTr :
             
     # Launch the process of modification once the param window is validated
     def ok_param(self, dic_param):
-        # Find the layer objects
-        lyr_lines = self.project.mapLayersByName(dic_param["lin_lyr"])[0]
-        lyr_nodes = self.project.mapLayersByName(dic_param["nod_lyr"])[0]
-        # Start editing line or node layer
-        if dic_param["move_mode"] == 0:
-            if not lyr_lines.startEditing():
-                QMessageBox.information(
-                    self.iface.mainWindow(), 
-                    self.err_title_txt, 
-                    self.err_noedit_txt 
-                    % (dic_param["lin_lyr"]))
-                return
-        else:
-            if not lyr_nodes.startEditing():
-                QMessageBox.information(
-                    self.iface.mainWindow(), 
-                    self.err_title_txt, 
-                    self.err_noedit_txt
-                    % (dic_param["nod_lyr"]))
-                return
-        # Reviews all the line objects
-        for lin_obj in lyr_lines.getFeatures():
-            # Find the node references in the line object
-            # Only the 2 first references are processed
-            try:
-                val_attsnode = lin_obj[dic_param["lin_att1"]].split(dic_param["lin_att_sep"])
-            except: 
-                QMessageBox.information(
-                    self.iface.mainWindow(), 
-                    self.err_title_txt, 
-                    self.err_noatt_txt 
-                    % (dic_param["lin_att1"]))
-                break
-            # Check if 2 point numbers found
-            if len(val_attsnode) > 1:
-                # Reviews all the node objects
-                for node_obj in lyr_nodes.getFeatures():
-                    if node_obj[dic_param["nod_att"]] == val_attsnode[0]:
-                        # The first vertex of the line is moved to the position of the node
-                        if dic_param["move_mode"] == 0:
-                            node_geom = node_obj.geometry().asPoint()
-                            lyr_lines.moveVertex(node_geom.x(), node_geom.y(), lin_obj.id(), 0)
-                        # The node is moved to the position of the first vertex of the line 
-                        else:
+        
+        # To avoid problem of layer names not found
+        try:
+            # Find the layer objects
+            lyr_lines = self.project.mapLayersByName(dic_param["lin_lyr"])[0]
+            lyr_nodes = self.project.mapLayersByName(dic_param["nod_lyr"])[0]
+            # Start editing line or node layer
+            if dic_param["move_mode"] == 0:
+                if not lyr_lines.startEditing():
+                    QMessageBox.information(
+                        self.iface.mainWindow(), 
+                        self.err_title_txt, 
+                        self.err_noedit_txt 
+                        % (dic_param["lin_lyr"]))
+                    return
+            else:
+                if not lyr_nodes.startEditing():
+                    QMessageBox.information(
+                        self.iface.mainWindow(), 
+                        self.err_title_txt, 
+                        self.err_noedit_txt
+                        % (dic_param["nod_lyr"]))
+                    return
+            # Reviews all the line objects
+            for lin_obj in lyr_lines.getFeatures():
+                # Find the node references in the line object
+                # Only the 2 first references are processed
+                try:
+                    val_attsnode = lin_obj[dic_param["lin_att1"]].split(dic_param["lin_att_sep"])
+                except: 
+                    QMessageBox.information(
+                        self.iface.mainWindow(), 
+                        self.err_title_txt, 
+                        self.err_noatt_txt 
+                        % (dic_param["lin_att1"]))
+                    break
+                # Check if 2 point numbers found
+                if len(val_attsnode) > 1:
+                    # Reviews all the node objects
+                    for node_obj in lyr_nodes.getFeatures():
+                        if node_obj[dic_param["nod_att"]] == val_attsnode[0]:
+                            # The first vertex of the line is moved to the position of the node
+                            if dic_param["move_mode"] == 0:
+                                node_geom = node_obj.geometry().asPoint()
+                                lyr_lines.moveVertex(node_geom.x(), node_geom.y(), lin_obj.id(), 0)
+                            # The node is moved to the position of the first vertex of the line 
+                            else:
+                                line_geom = lin_obj.geometry()
+                                line_geom.convertToSingleType()
+                                line_geompl = line_geom.asPolyline()
+                                node_geom = node_obj.geometry()
+                                lyr_nodes.moveVertex(line_geompl[0][0], line_geompl[0][1], node_obj.id(), 0)
+                        if node_obj[dic_param["nod_att"]] == val_attsnode[1]:
                             line_geom = lin_obj.geometry()
                             line_geom.convertToSingleType()
                             line_geompl = line_geom.asPolyline()
-                            node_geom = node_obj.geometry()
-                            lyr_nodes.moveVertex(line_geompl[0][0], line_geompl[0][1], node_obj.id(), 0)
-                    if node_obj[dic_param["nod_att"]] == val_attsnode[1]:
-                        line_geom = lin_obj.geometry()
-                        line_geom.convertToSingleType()
-                        line_geompl = line_geom.asPolyline()
-                        # The last vertex of the line is moved to the position of the node
-                        if dic_param["move_mode"] == 0:
-                            last_vtx = len(line_geompl) - 1
-                            node_geom = node_obj.geometry().asPoint()
-                            lyr_lines.moveVertex(node_geom.x(), node_geom.y(), lin_obj.id(), last_vtx)
-                        # The node is moved to the position of the last vertex of the line
-                        else:
-                            last_vtx = len(line_geompl) - 1
-                            node_geom = node_obj.geometry()
-                            lyr_nodes.moveVertex(line_geompl[last_vtx][0], line_geompl[last_vtx][1], node_obj.id(), 0)
-        # Validate the modification of the line or the node layer
-        if dic_param["move_mode"] == 0:
-            lyr_lines.commitChanges()
-        else:
-            lyr_nodes.commitChanges()
-        # Refresh the canvas
-        self.canvas.refresh()
+                            # The last vertex of the line is moved to the position of the node
+                            if dic_param["move_mode"] == 0:
+                                last_vtx = len(line_geompl) - 1
+                                node_geom = node_obj.geometry().asPoint()
+                                lyr_lines.moveVertex(node_geom.x(), node_geom.y(), lin_obj.id(), last_vtx)
+                            # The node is moved to the position of the last vertex of the line
+                            else:
+                                last_vtx = len(line_geompl) - 1
+                                node_geom = node_obj.geometry()
+                                lyr_nodes.moveVertex(line_geompl[last_vtx][0], line_geompl[last_vtx][1], node_obj.id(), 0)
+            # Validate the modification of the line or the node layer
+            if dic_param["move_mode"] == 0:
+                lyr_lines.commitChanges()
+            else:
+                lyr_nodes.commitChanges()
+            # Refresh the canvas
+            self.canvas.refresh()
+        except:
+            pass
         # End message
         QMessageBox.information(self.iface.mainWindow(), self.fnc_title_txt, self.end_txt)
         
