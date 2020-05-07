@@ -13,7 +13,7 @@ about=Modify the position of the vertices (the start-point and the end-point) of
  grâce à la valeur d'un attribut correspondant à l'identifiant de chacun de ces 2 points 
  (avec un séparateur spécifique entre les 2 identifiants dans la valeur d'attribut).
  L'inverse est également possible: déplacer les points sur les lignes.
-version=version 3.02
+version=version 3.3.0
 tags=move points on lines,move lines on points,sigmoé,sigmoe
 homepage=https://sigmoe.fr/nouvelle-video-extension-qgis-deplace-lignes-sur-points-par-attribut
 tracker=https://github.com/sigmoe/Vertex2NodeByAtt/issues
