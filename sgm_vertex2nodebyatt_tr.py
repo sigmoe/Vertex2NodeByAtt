@@ -26,8 +26,8 @@
     *                          end points of the LINES object)
     * Specific lib:  None
     * First release: 2017-05-11
-    * Last release:  2020-05-07
-    * Copyright:     (C)2020 SIGMOE
+    * Last release:  2021-11-09
+    * Copyright:     (C)2021 SIGMOE
     * Email:         em at sigmoe.fr
     * License:       GPL v3
     ***************************************************************************
@@ -116,45 +116,47 @@ class Vertex2NodeByAttTr :
             for lin_obj in lyr_lines.getFeatures():
                 # Find the node references in the line object
                 # Only the 2 first references are processed
+                val_ok = True
                 try:
                     val_attsnode = lin_obj[dic_param["lin_att1"]].split(dic_param["lin_att_sep"])
                 except: 
-                    QMessageBox.information(
-                        self.iface.mainWindow(), 
-                        self.err_title_txt, 
-                        self.err_noatt_txt 
-                        % (dic_param["lin_att1"]))
-                    break
-                # Check if 2 point numbers found
-                if len(val_attsnode) > 1:
-                    # Reviews all the node objects
-                    for node_obj in lyr_nodes.getFeatures():
-                        if node_obj[dic_param["nod_att"]] == val_attsnode[0]:
-                            # The first vertex of the line is moved to the position of the node
-                            if dic_param["move_mode"] == 0:
-                                node_geom = node_obj.geometry().asPoint()
-                                lyr_lines.moveVertex(node_geom.x(), node_geom.y(), lin_obj.id(), 0)
-                            # The node is moved to the position of the first vertex of the line 
-                            else:
+                    # QMessageBox.information(
+                        # self.iface.mainWindow(), 
+                        # self.err_title_txt, 
+                        # self.err_noatt_txt 
+                        # % (dic_param["lin_att1"]))
+                    val_ok = False
+                if val_ok:
+                    # Check if 2 point numbers found
+                    if len(val_attsnode) > 1:
+                        # Reviews all the node objects
+                        for node_obj in lyr_nodes.getFeatures():
+                            if node_obj[dic_param["nod_att"]] == val_attsnode[0]:
+                                # The first vertex of the line is moved to the position of the node
+                                if dic_param["move_mode"] == 0:
+                                    node_geom = node_obj.geometry().asPoint()
+                                    lyr_lines.moveVertex(node_geom.x(), node_geom.y(), lin_obj.id(), 0)
+                                # The node is moved to the position of the first vertex of the line 
+                                else:
+                                    line_geom = lin_obj.geometry()
+                                    line_geom.convertToSingleType()
+                                    line_geompl = line_geom.asPolyline()
+                                    node_geom = node_obj.geometry()
+                                    lyr_nodes.moveVertex(line_geompl[0][0], line_geompl[0][1], node_obj.id(), 0)
+                            if node_obj[dic_param["nod_att"]] == val_attsnode[1]:
                                 line_geom = lin_obj.geometry()
                                 line_geom.convertToSingleType()
                                 line_geompl = line_geom.asPolyline()
-                                node_geom = node_obj.geometry()
-                                lyr_nodes.moveVertex(line_geompl[0][0], line_geompl[0][1], node_obj.id(), 0)
-                        if node_obj[dic_param["nod_att"]] == val_attsnode[1]:
-                            line_geom = lin_obj.geometry()
-                            line_geom.convertToSingleType()
-                            line_geompl = line_geom.asPolyline()
-                            # The last vertex of the line is moved to the position of the node
-                            if dic_param["move_mode"] == 0:
-                                last_vtx = len(line_geompl) - 1
-                                node_geom = node_obj.geometry().asPoint()
-                                lyr_lines.moveVertex(node_geom.x(), node_geom.y(), lin_obj.id(), last_vtx)
-                            # The node is moved to the position of the last vertex of the line
-                            else:
-                                last_vtx = len(line_geompl) - 1
-                                node_geom = node_obj.geometry()
-                                lyr_nodes.moveVertex(line_geompl[last_vtx][0], line_geompl[last_vtx][1], node_obj.id(), 0)
+                                # The last vertex of the line is moved to the position of the node
+                                if dic_param["move_mode"] == 0:
+                                    last_vtx = len(line_geompl) - 1
+                                    node_geom = node_obj.geometry().asPoint()
+                                    lyr_lines.moveVertex(node_geom.x(), node_geom.y(), lin_obj.id(), last_vtx)
+                                # The node is moved to the position of the last vertex of the line
+                                else:
+                                    last_vtx = len(line_geompl) - 1
+                                    node_geom = node_obj.geometry()
+                                    lyr_nodes.moveVertex(line_geompl[last_vtx][0], line_geompl[last_vtx][1], node_obj.id(), 0)
             # Validate the modification of the line or the node layer
             if dic_param["move_mode"] == 0:
                 lyr_lines.commitChanges()
